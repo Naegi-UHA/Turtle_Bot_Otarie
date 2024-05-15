@@ -14,7 +14,7 @@ Objectif: visualiser les mouvements du robot et commander ses déplacments
 
 -Interface utilisateur
    
-     Zone 1 : connexion avec robot
+    Zone 1 : connexion avec robot
            champ de texte pour se connecter ( ROS Master Uri , ROS Hostname)
            bouton start / stop 
            icone
