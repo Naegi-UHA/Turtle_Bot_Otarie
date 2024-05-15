@@ -13,11 +13,12 @@ Objectif: visualisr les mouvements du robot et commander ses déplacmeents
     bouton stop ( icone qui indique la fin de la réception ) -> position 0,0
 
 -Interface utilisateur
-    Zone 1 : connexion avec robot
+   
+     Zone 1 : connexion avec robot
            champ de texte pour se connecter ( ROS Master Uri , ROS Hostname)
            bouton start / stop 
            icone
-
+           
     Zone 2 : Mouvement du robot
           Vitesse linéaire et angulaire sur des graphiques ( package matplotlib )
           Valeur s'actualise 2 fois par secondes
