@@ -3,12 +3,12 @@ Projet python du groupe des Otaries composé de :
 
 Ligne ajoutée pour tester git (commit pull ...)
 
-Objectif: visualisr les mouvements du robot et commander ses déplacmeents
+Objectif: visualiser les mouvements du robot et commander ses déplacments
 
-- Interfa ce graphique ( TKinter )
+- Interface graphique ( TKinter )
     bouton start
-    icone qui indique que la réception est actif
-    Subscriber
+    icone qui indique que la réception est active
+    Subscriber ROS et publisher
     visualiser ( position, vitesse ) -> point x,y
     bouton stop ( icone qui indique la fin de la réception ) -> position 0,0
 
