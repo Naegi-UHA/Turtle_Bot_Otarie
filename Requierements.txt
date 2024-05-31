@@ -1,0 +1,30 @@
+Liste des packages nécessaires au bon fonctionnement du projet python.
+
+-- mouvement. py
+import json
+from pathlib import Path
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import rospy
+from nav_msgs.msg import Odometry
+
+-- commande.py
+import tkinter as ttk
+from geometry_msgs.msg import Twist
+import rospy
+
+-- Connexion.py
+import tkinter as tk
+from tkinter import ttk
+import rospy
+import subprocess
+
+--main.py
+import tkinter as tk
+from connexion import Connexion
+from mouvement import Mouvement
+from commande import Commande
+import rospy
+from tkinter import ttk
+
