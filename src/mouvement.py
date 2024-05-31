@@ -2,12 +2,18 @@ import json
 from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import rospy
 from nav_msgs.msg import Odometry
+import logging
 
 VELOCITIES_PATH = Path(__file__).parent / "velocities.json"
 POSES_PATH = Path(__file__).parent / "poses.json"
+
+# Configure logging
+logging.basicConfig(filename="robot_log.log", level=logging.DEBUG, 
+                    format="%(asctime)s - %(levelname)s - %(message)s")
 
 class Mouvement:
     def __init__(self, root):
@@ -23,6 +29,9 @@ class Mouvement:
 
         rospy.Subscriber('/odom', Odometry, self.odom_callback)
 
+        # Set up animation
+        self.ani = FuncAnimation(self.fig, self.update_graph, interval=500)  # Update every 500 ms
+
     def odom_callback(self, data):
         if self.running:
             linear = data.twist.twist.linear.x
@@ -33,6 +42,7 @@ class Mouvement:
             self.poses.append({"x": position.x, "y": position.y})
 
             self.save_data()
+            logging.debug(f"Vx={linear}, Ax={angular}")
 
     def save_data(self):
         with open(VELOCITIES_PATH, "w") as f:
@@ -97,3 +107,9 @@ class Mouvement:
         self.ax2.legend()
 
         self.canvas.draw()
+
+    def start_logging(self):
+        logging.info("Robot connected")
+
+    def stop_logging(self):
+        logging.info("Robot disconnected")

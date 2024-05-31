@@ -25,13 +25,20 @@ class Commande:
         self.stop_button = ttk.Button(self.command_frame, text="Arrêter", command=self.stop_robot)
         self.stop_button.grid(row=2, column=1, padx=5, pady=5)
 
+        # Rallonger la taille des sliders de vitesse
+        slider_length = 300
+
         ttk.Label(self.command_frame, text="Vitesse Linéaire:").grid(row=3, column=0)
-        self.linear_speed_slider = ttk.Scale(self.command_frame, from_=-1, to=1, orient=tk.HORIZONTAL, command=self.update_speed)
+        self.linear_speed_slider = ttk.Scale(
+            self.command_frame, from_=-0.5, to=0.5, orient=tk.HORIZONTAL, length=slider_length, command=self.update_speed
+        )  # Réduire la vitesse maximale à 0.5
         self.linear_speed_slider.set(0)
         self.linear_speed_slider.grid(row=3, column=1, columnspan=2, padx=5, pady=5)
 
         ttk.Label(self.command_frame, text="Vitesse Angulaire:").grid(row=4, column=0)
-        self.angular_speed_slider = ttk.Scale(self.command_frame, from_=-1, to=1, orient=tk.HORIZONTAL, command=self.update_speed)
+        self.angular_speed_slider = ttk.Scale(
+            self.command_frame, from_=-1, to=1, orient=tk.HORIZONTAL, length=slider_length, command=self.update_speed
+        )
         self.angular_speed_slider.set(0)
         self.angular_speed_slider.grid(row=4, column=1, columnspan=2, padx=5, pady=5)
 
@@ -39,27 +46,27 @@ class Commande:
         self.current_twist = Twist()
 
     def move_forward(self):
-        self.linear_speed_slider.set(1)
+        self.linear_speed_slider.set(0.5)
         self.angular_speed_slider.set(0)
-        self.current_twist.linear.x = 0.2
+        self.current_twist.linear.x = 0.5
         self.publish_velocity()
 
     def move_backward(self):
-        self.linear_speed_slider.set(-1)
+        self.linear_speed_slider.set(-0.5)
         self.angular_speed_slider.set(0)
-        self.current_twist.linear.x = -0.2
+        self.current_twist.linear.x = -0.5
         self.publish_velocity()
 
     def turn_left(self):
         self.angular_speed_slider.set(-1)
-        self.linear_speed_slider.set(0.2)
-        self.current_twist.angular.z = -0.2
+        self.linear_speed_slider.set(0)
+        self.current_twist.angular.z = -1
         self.publish_velocity()
 
     def turn_right(self):
         self.angular_speed_slider.set(1)
-        self.linear_speed_slider.set(0.2)
-        self.current_twist.angular.z = 0.2
+        self.linear_speed_slider.set(0)
+        self.current_twist.angular.z = 1
         self.publish_velocity()
 
     def stop_robot(self):
@@ -82,4 +89,3 @@ class Commande:
     def start_robot(self):
         self.mouvement.running = True
         self.mouvement.reset_position = True
-
