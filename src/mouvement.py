@@ -97,4 +97,3 @@ class Mouvement:
         self.ax2.legend()
 
         self.canvas.draw()
-
