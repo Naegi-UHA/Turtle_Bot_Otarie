@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import rospy
 import subprocess
+import time
+import os
+import signal
 
 class Connexion:
     def __init__(self, root, start_callback, stop_callback):
@@ -26,7 +29,7 @@ class Connexion:
         self.start_button.grid(row=2, column=0, pady=5)
 
         self.stop_button = ttk.Button(
-            self.connection_frame, text="STOP", command=self.stop_robot
+            self.connection_frame, text="STOP_CONNECT", command=self.stop_connect_robot
         )
         self.stop_button.grid(row=2, column=1, pady=5)
 
@@ -35,33 +38,56 @@ class Connexion:
         )
         self.status_label.grid(row=3, column=0, columnspan=2, pady=5)
 
+        # Automatically start ROS core and launch Gazebo simulation
+        self.start_ros_core()
+        self.launch_gazebo_simulation()
+
+    def start_ros_core(self):
+        self.status_label.config(text="Status: Starting ROS core...", foreground="orange")
+        self.root.update_idletasks()
+
+        # Start roscore
+        self.roscore_process = subprocess.Popen(['roscore'])
+
+        # Wait for roscore to initialize
+        while not self.is_roscore_running():
+            time.sleep(1)
+        
+        self.status_label.config(text="Status: ROS core started", foreground="green")
+
+    def is_roscore_running(self):
+        try:
+            output = subprocess.check_output(['rostopic', 'list'])
+            return True
+        except subprocess.CalledProcessError:
+            return False
+
+    def launch_gazebo_simulation(self):
+        self.status_label.config(text="Status: Launching Gazebo simulation...", foreground="orange")
+        self.root.update_idletasks()
+
+        # Launch Gazebo simulation
+        self.gazebo_process = subprocess.Popen(['roslaunch', 'turtlebot3_gazebo', 'turtlebot3_empty_world.launch'])
+        self.status_label.config(text="Status: Gazebo simulation launched", foreground="green")
+
     def start_robot(self):
         self.status_label.config(text="Status: Connecting...", foreground="orange")
         self.root.update_idletasks()
-        
-        # Start roscore
-        self.roscore_process = subprocess.Popen(['roscore'])
-        rospy.init_node('robot_interface', anonymous=True)
-        
-        # Launch Gazebo simulation
-        self.gazebo_process = subprocess.Popen(['roslaunch', 'turtlebot3_gazebo', 'turtlebot3_empty_world.launch'])
 
         # Call the callback to start the robot control
         self.start_callback()
-
         self.status_label.config(text="Status: Connected", foreground="green")
 
-    def stop_robot(self):
+    def stop_connect_robot(self):
         # Stop Gazebo simulation
         if hasattr(self, 'gazebo_process'):
-            self.gazebo_process.terminate()
+            os.killpg(os.getpgid(self.gazebo_process.pid), signal.SIGTERM)
         
         # Stop roscore
         if hasattr(self, 'roscore_process'):
-            self.roscore_process.terminate()
+            os.killpg(os.getpgid(self.roscore_process.pid), signal.SIGTERM)
 
         # Call the callback to stop the robot control
         self.stop_callback()
 
         self.status_label.config(text="Status: Disconnected", foreground="red")
-
