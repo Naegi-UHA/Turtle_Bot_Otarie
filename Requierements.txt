@@ -1,30 +1,21 @@
 Liste des packages nécessaires au bon fonctionnement du projet python.
 
--- mouvement. py
-import json
-from pathlib import Path
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import rospy
-from nav_msgs.msg import Odometry
+-- Packages existant déjà --
+json
+pathlib 
+numpy
+matplotlib.pyplot 
+matplotlib.backends.backend_tkagg 
+rospy
+nav_msgs.msg 
+tkinter
+geometry_msgs.msg 
+subprocess
 
--- commande.py
-import tkinter as ttk
-from geometry_msgs.msg import Twist
-import rospy
+-- Packages créés pour notre main.py --
 
--- Connexion.py
-import tkinter as tk
-from tkinter import ttk
-import rospy
-import subprocess
+connexion 
+mouvement 
+commande 
 
---main.py
-import tkinter as tk
-from connexion import Connexion
-from mouvement import Mouvement
-from commande import Commande
-import rospy
-from tkinter import ttk
 
