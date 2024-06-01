@@ -43,13 +43,14 @@ class Connexion:
         # Automatically start ROS core and launch Gazebo simulation
         self.start_ros_core()
         self.launch_gazebo_simulation()
+        self.launch_rviz()
 
     def start_ros_core(self):
         self.status_label.config(text="Status: Starting ROS core...", foreground="orange")
         self.root.update_idletasks()
 
         # Start roscore
-        self.roscore_process = subprocess.Popen(['roscore'])
+        self.roscore_process = subprocess.Popen(['roscore'], preexec_fn=os.setsid)
 
         # Wait for roscore to initialize
         while not self.is_roscore_running():
@@ -69,8 +70,16 @@ class Connexion:
         self.root.update_idletasks()
 
         # Launch Gazebo simulation
-        self.gazebo_process = subprocess.Popen(['roslaunch', 'turtlebot3_gazebo', 'turtlebot3_empty_world.launch'])
+        self.gazebo_process = subprocess.Popen(['roslaunch', 'turtlebot3_gazebo', 'turtlebot3_empty_world.launch'], preexec_fn=os.setsid)
         self.status_label.config(text="Status: Gazebo simulation launched", foreground="green")
+
+    def launch_rviz(self):
+        self.status_label.config(text="Status: Launching RViz...", foreground="orange")
+        self.root.update_idletasks()
+
+        # Launch RViz
+        self.rviz_process = subprocess.Popen(['roslaunch', 'turtlebot3_gazebo', 'turtlebot3_gazebo_rviz.launch'], preexec_fn=os.setsid)
+        self.status_label.config(text="Status: RViz launched", foreground="green")
 
     def start_robot(self):
         self.status_label.config(text="Status: Connecting...", foreground="orange")
@@ -84,6 +93,10 @@ class Connexion:
         # Stop Gazebo simulation
         if hasattr(self, 'gazebo_process'):
             os.killpg(os.getpgid(self.gazebo_process.pid), signal.SIGTERM)
+        
+        # Stop RViz
+        if hasattr(self, 'rviz_process'):
+            os.killpg(os.getpgid(self.rviz_process.pid), signal.SIGTERM)
         
         # Stop roscore
         if hasattr(self, 'roscore_process'):
