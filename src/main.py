@@ -10,7 +10,7 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Robot Interface")
 
-    # Connexion and start ROS core and Gazebo
+    # Connexion and start ROS core, Gazebo, and RViz
     connexion = Connexion(root, None, None)
 
     # Ensure ROS is initialized after roscore is running
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     commande = Commande(root, mouvement)
 
     # Pass the correct start and stop callbacks to Connexion
-    connexion.start_callback = Connexion.start_robot
-    connexion.stop_callback = Connexion.stop_connect_robot
+    connexion.start_callback = commande.start_robot
+    connexion.stop_callback = connexion.stop_connect_robot
 
     root.mainloop()
