@@ -13,6 +13,7 @@ geometry_msgs.msg
 subprocess
 time
 os
+signal
 
 -- Packages créés pour notre main.py --
 
