@@ -10,16 +10,16 @@ if __name__ == "__main__":
     root = tk.Tk()
     root.title("Robot Interface")
 
-    # Connexion and start ROS core, Gazebo, and RViz
+    # Initialisation de la connexion ROS et lancement des outils ROS
     connexion = Connexion(root, None, None)
 
-    # Ensure ROS is initialized after roscore is running
+    # Initialisation du nœud ROS après le lancement de roscore
     rospy.init_node('robot_interface', anonymous=True)
 
     mouvement = Mouvement(root)
     commande = Commande(root, mouvement)
 
-    # Pass the correct start and stop callbacks to Connexion
+    # Définition des callbacks pour démarrer et arrêter le robot
     connexion.start_callback = commande.start_robot
     connexion.stop_callback = connexion.stop_connect_robot
 

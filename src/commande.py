@@ -9,9 +9,11 @@ class Commande:
     def __init__(self, root, mouvement):
         self.mouvement = mouvement
 
+        # Création d'un cadre de commandes pour le robot
         self.command_frame = ttk.LabelFrame(root, text="Commandes du Robot")
         self.command_frame.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
 
+        # Boutons pour les commandes de mouvement du robot
         self.forward_button = ttk.Button(self.command_frame, text="Marche Avant", command=self.move_forward)
         self.forward_button.grid(row=0, column=1, padx=5, pady=5)
 
@@ -27,16 +29,18 @@ class Commande:
         self.stop_button = ttk.Button(self.command_frame, text="Arrêter", command=self.stop_robot)
         self.stop_button.grid(row=2, column=1, padx=5, pady=5)
 
-        # Rallonger la taille des sliders de vitesse
+        # Définition de la longueur des sliders pour les vitesses
         slider_length = 300
 
+        # Slider pour la vitesse linéaire
         ttk.Label(self.command_frame, text="Vitesse Linéaire:").grid(row=3, column=0)
         self.linear_speed_slider = ttk.Scale(
             self.command_frame, from_=-0.5, to=0.5, orient=tk.HORIZONTAL, length=slider_length, command=self.update_speed
-        )  # Réduire la vitesse maximale à 0.5
+        )
         self.linear_speed_slider.set(0)
         self.linear_speed_slider.grid(row=3, column=1, columnspan=2, padx=5, pady=5)
 
+        # Slider pour la vitesse angulaire
         ttk.Label(self.command_frame, text="Vitesse Angulaire:").grid(row=4, column=0)
         self.angular_speed_slider = ttk.Scale(
             self.command_frame, from_=-1, to=1, orient=tk.HORIZONTAL, length=slider_length, command=self.update_speed
@@ -44,6 +48,7 @@ class Commande:
         self.angular_speed_slider.set(0)
         self.angular_speed_slider.grid(row=4, column=1, columnspan=2, padx=5, pady=5)
 
+        # Initialisation du publisher ROS pour envoyer les commandes de vitesse
         self.velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
         self.current_twist = Twist()
 

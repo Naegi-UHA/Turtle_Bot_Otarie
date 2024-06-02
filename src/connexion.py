@@ -14,9 +14,11 @@ class Connexion:
         self.start_callback = start_callback
         self.stop_callback = stop_callback
 
+        # Création du cadre de connexion
         self.connection_frame = ttk.LabelFrame(root, text="Robot Connection")
         self.connection_frame.grid(row=0, column=0, padx=10, pady=10, sticky="ew")
 
+        # Entrées pour l'IP et le port du robot
         ttk.Label(self.connection_frame, text="IP:").grid(row=0, column=0)
         self.ip_entry = ttk.Entry(self.connection_frame)
         self.ip_entry.grid(row=0, column=1)
@@ -40,7 +42,7 @@ class Connexion:
         )
         self.status_label.grid(row=3, column=0, columnspan=2, pady=5)
 
-        # Automatically start ROS core and launch Gazebo simulation
+        # Lancement automatique de roscore et de la simulation Gazebo
         self.start_ros_core()
         self.launch_gazebo_simulation()
         self.launch_rviz()
@@ -49,10 +51,10 @@ class Connexion:
         self.status_label.config(text="Status: Starting ROS core...", foreground="orange")
         self.root.update_idletasks()
 
-        # Start roscore
+        # Démarrage de roscore
         self.roscore_process = subprocess.Popen(['roscore'], preexec_fn=os.setsid)
 
-        # Wait for roscore to initialize
+        # Attente de l'initialisation de roscore
         while not self.is_roscore_running():
             time.sleep(1)
         
@@ -69,7 +71,7 @@ class Connexion:
         self.status_label.config(text="Status: Launching Gazebo simulation...", foreground="orange")
         self.root.update_idletasks()
 
-        # Launch Gazebo simulation
+        # Lancement de la simulation Gazebo
         self.gazebo_process = subprocess.Popen(['roslaunch', 'turtlebot3_gazebo', 'turtlebot3_empty_world.launch'], preexec_fn=os.setsid)
         self.status_label.config(text="Status: Gazebo simulation launched", foreground="green")
 
@@ -77,7 +79,7 @@ class Connexion:
         self.status_label.config(text="Status: Launching RViz...", foreground="orange")
         self.root.update_idletasks()
 
-        # Launch RViz
+        # Lancement de RViz
         self.rviz_process = subprocess.Popen(['roslaunch', 'turtlebot3_gazebo', 'turtlebot3_gazebo_rviz.launch'], preexec_fn=os.setsid)
         self.status_label.config(text="Status: RViz launched", foreground="green")
 
@@ -85,24 +87,24 @@ class Connexion:
         self.status_label.config(text="Status: Connecting...", foreground="orange")
         self.root.update_idletasks()
 
-        # Call the callback to start the robot control
+        # Appel du callback pour démarrer le contrôle du robot
         self.start_callback()
         self.status_label.config(text="Status: Connected", foreground="green")
 
     def stop_connect_robot(self):
-        # Stop Gazebo simulation
+        # Arrêt de la simulation Gazebo
         if hasattr(self, 'gazebo_process'):
             os.killpg(os.getpgid(self.gazebo_process.pid), signal.SIGTERM)
         
-        # Stop RViz
+        # Arrêt de RViz
         if hasattr(self, 'rviz_process'):
             os.killpg(os.getpgid(self.rviz_process.pid), signal.SIGTERM)
         
-        # Stop roscore
+        # Arrêt de roscore
         if hasattr(self, 'roscore_process'):
             os.killpg(os.getpgid(self.roscore_process.pid), signal.SIGTERM)
 
-        # Call the callback to stop the robot control
+        # Appel du callback pour arrêter le contrôle du robot
         self.stop_callback()
 
         self.status_label.config(text="Status: Disconnected", foreground="red")
