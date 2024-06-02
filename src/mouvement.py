@@ -105,13 +105,13 @@ class Mouvement:
 
             t = np.arange(len(linear_velocity_data))
 
-            self.ax1.plot(t, linear_velocity_data, label="Linear Velocity")
-            self.ax1.plot(t, angular_velocity_data, label="Angular Velocity")
-            self.ax1.set_title("Linear and Angular Velocity")
+            self.ax1.plot(t, linear_velocity_data, label="Vitesse linéaire")
+            self.ax1.plot(t, angular_velocity_data, label="Vitesse angulaire")
+            self.ax1.set_title("Vitesse linéaire et angulaire")
             self.ax1.legend()
 
-        self.ax2.plot(x_positions, y_positions, label="Robot Position")
-        self.ax2.set_title("Position on 2D Plane")
+        self.ax2.plot(x_positions, y_positions, label="Position")
+        self.ax2.set_title("Position dans un plan 2D")
         self.ax2.legend()
 
         self.canvas.draw()
