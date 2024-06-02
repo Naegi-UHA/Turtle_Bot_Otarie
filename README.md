@@ -35,5 +35,3 @@ Objectif: visualiser les mouvements du robot et commander ses déplacments
         
     
 - ROS, connexion robot
-- 
-BONJOUR LUCAS
