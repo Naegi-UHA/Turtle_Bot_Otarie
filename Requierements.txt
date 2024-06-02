@@ -11,6 +11,8 @@ nav_msgs.msg
 tkinter
 geometry_msgs.msg 
 subprocess
+time
+os
 
 -- Packages créés pour notre main.py --
 
