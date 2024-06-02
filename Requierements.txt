@@ -25,3 +25,13 @@ mouvement
 commande 
 
 
+-- Gazebo et Ros pour lancer la simulation --
+
+il faut suivre le tutoriel sur ce site : https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/
+
+il faut suivre la procédure en version "MELODIC" sous Ubuntu 18
+
+le programme main.py doit être exécuter dans un environnement Ubuntu 18
+
+dans le cas ou la procédure ne fonctionne pas il y aura une vidéo jointe démontrant
+la finalité du projet, incluant un enregistrement de trajectoire, position et vitesse.

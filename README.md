@@ -21,17 +21,20 @@ Objectif: visualiser les mouvements du robot et commander ses déplacments
            
     Zone 2 : Mouvement du robot
           Vitesse linéaire et angulaire sur des graphiques ( package matplotlib )
+          Position du robot et conservation de trajectoire sur un plan 2D
           Valeur s'actualise 2 fois par secondes
 
-    Zone 3 : Commande
-        Anvancer
-        Reculer
-        Gauche
-        Droite
-        Slider ( vitessa angulaire et linéaire ) -> vitesse à 0 quand on relache le bouton
-        
-        
-           
+    Zone 3 : Commande (la pression sur les boutons à la priorité sur les commandes des sliders.)
+        Boutons :
+            Arrêter (replace les sliders à 0)
+            Anvancer 
+            Reculer
+            Gauche
+            Droite
+
+        Slider :
+            vitesse angulaire
+            Vitesse linéaire 
         
     
 - ROS, connexion robot
